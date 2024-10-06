@@ -7,7 +7,7 @@ const comment = require('../model/commentschema');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'public/images/uploads'))
+    cb(null, path.join(__dirname, '../public/images/uploads'))
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now()
@@ -15,7 +15,22 @@ const storage = multer.diskStorage({
   }
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5, // 5 MB
+    files: 1, // only allow 1 file to be uploaded
+    fields: 10, // only allow 10 fields to be uploaded
+    parts: 10, // only allow 10 parts to be uploaded
+    headerPairs: 2000 // only allow 2000 header pairs to be uploaded
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Only image files are allowed!'));
+    }
+    cb(null, true);
+  }
+})
 
 router.get("/addblog", (req, res) => {
   res.render('addblog')
@@ -32,7 +47,7 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
       title,
       body,
       createdBy,
-      // coverImageUrl: `/app/images/uploads/${req.file.filename}`,
+      coverImageUrl: `/images/uploads/${req.file.filename}`,
     });
 
     console.log("Blog created successfully", newBlog);
