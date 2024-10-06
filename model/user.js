@@ -37,7 +37,7 @@ userSchema.pre("save", function (next) {
     const user = this;
     if (!user.isModified("password")) return next();
 
-    const salt = "helloworld";
+    const salt = process.env.SALT;  
     const hashedPassword = createHmac("sha256", salt).update(user.password).digest("hex");
 
     console.log("Hashed Password during signup:", hashedPassword);  // Log during signup
