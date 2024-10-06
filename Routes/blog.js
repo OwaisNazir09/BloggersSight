@@ -23,14 +23,14 @@ router.get("/addblog", (req, res) => {
 
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
   const { title, body } = req.body;
-  const createdBy = req.user.id;  // Use only the user's ObjectId
+  const createdBy = req.user.id; 
 
   try {
     const newBlog = await blog.create({
       title,
       body,
       createdBy,
-      coverImageUrl: `/images/uploads/${req.file.filename}`,
+      coverImageUrl: `/app/images/uploads/${req.file.filename}`,
     });
 
     console.log("Blog created successfully", newBlog);
