@@ -22,6 +22,14 @@ router.get("/addblog", (req, res) => {
   res.render('addblog')
 })
 
+app.post('/upload', upload.single('fileFieldName'), (req, res) => {
+  console.log('File uploaded:', req.file);
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+  }
+  res.send('File uploaded successfully!');
+});
+
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
   const { title, body } = req.body;
   const createdBy = req.user.id;  // Use only the user's ObjectId
