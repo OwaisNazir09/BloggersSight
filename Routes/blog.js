@@ -23,8 +23,11 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 10, //  10MB
+    fileSize: 1024 * 1024 * 5, // 5 MB
     files: 1, // only allow 1 file to be uploaded
+    fields: 10, // only allow 10 fields to be uploaded
+    parts: 10, // only allow 10 parts to be uploaded
+    headerPairs: 2000 // only allow 2000 header pairs to be uploaded
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -45,7 +48,11 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
 
   const { title, body } = req.body;
   const createdBy = req.user.id; 
+
   try {
+    // Add a wait time until the image gets uploaded
+    await new Promise(resolve => setTimeout(resolve, 20000));
+
     const newBlog = await blog.create({
       title,
       body,
@@ -54,13 +61,12 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
     });
 
     console.log("Blog created successfully", newBlog);
-    res.redirect('/'); // Redirect after successful blog creation
+    res.redirect('/');
   } catch (error) {
     console.error("Error creating blog:", error);
     res.status(500).send("Error saving the blog");
   }
 });
-
 
 router.get('/:id', async (req, res) => {
   const blogdescriptiodata = await blog.findOne({ _id: req.params.id }).populate("createdBy")

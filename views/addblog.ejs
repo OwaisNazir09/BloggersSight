@@ -87,7 +87,7 @@
 
     <div class="container">
         <h1>Add a New Blog</h1>
-        <form id="blogForm" action="/addblog" enctype="multipart/form-data" method="post">
+        <form id="blogForm" action="addblog" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label for="username" class="form-label">Title of Blog</label>
                 <input type="text" class="form-control" id="username" name="title" placeholder="Enter your blog title" required>
@@ -105,18 +105,9 @@
 
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-        <div id="loading">Uploading, please wait...</div>
+        
     </div>
-
-    <script>
-        const form = document.getElementById('blogForm');
-        const loadingIndicator = document.getElementById('loading');
-
-        form.addEventListener('submit', function() {
-            loadingIndicator.style.display = 'block'; // Show loading indicator
-        });
-    </script>
-
+   
     <%- include('./partials/script') %>
 
 </body>
