@@ -2,36 +2,27 @@ const express = require('express');
 const router = express.Router();
 const blog = require('../model/blogschema'); // Blog schema/model
 const { route } = require('./user');
-const multer = require('multer');
+const multer = require('multer')
 const path = require('path');
 const comment = require('../model/commentschema');
 
-// Update: Use an absolute path for the upload directory
-const uploadDir = path.join(__dirname, '../public/images/uploads');
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, uploadDir);
+    cb(null, path.join(__dirname, '../public/images/uploads'))
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, file.originalname + '-' + uniqueSuffix);
+    const uniqueSuffix = Date.now()
+    cb(null, file.originalname + '-' + uniqueSuffix)
   }
-});
+})
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage })
 
 router.get("/addblog", (req, res) => {
   res.render('addblog')
 })
 
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
-
-  console.log('File uploaded:', req.file);
-  if (!req.file) {
-      return res.status(400).send('No file uploaded.');
-  }
-  res.send('File uploaded successfully!');
   const { title, body } = req.body;
   const createdBy = req.user.id;  // Use only the user's ObjectId
 
@@ -70,6 +61,34 @@ router.post('/comment/:blogId', (req, res) => {
   });
   return res.redirect(`/blog/${req.params.blogId}`);
 });
+
+router.post('/addblog', upload.single('coverImage'), async (req, res) => {
+
+  console.log('File uploaded:', req.file);
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+  }
+  res.send('File uploaded successfully!');
+  const { title, body } = req.body;
+  const createdBy = req.user.id;  // Use only the user's ObjectId
+
+  try {
+    const newBlog = await blog.create({
+      title,
+      body,
+      createdBy,
+      coverImageUrl: `/images/uploads/${req.file.filename}`,
+    });
+
+    console.log("Blog created successfully", newBlog);
+    res.redirect('/');
+  } catch (error) {
+    console.error("Error creating blog:", error);
+    res.status(500).send("Error saving the blog");
+  }
+});
+
+
 
 
 
