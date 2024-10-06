@@ -4,10 +4,15 @@ const blog = require('../model/blogschema'); // Blog schema/model
 const multer = require('multer')
 const path = require('path');
 const comment = require('../model/commentschema');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../public/images/uploads'))
+    const uploadPath = path.join(__dirname, '../public/images/uploads');
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath);
+    }
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now()
@@ -37,12 +42,19 @@ router.get("/addblog", (req, res) => {
 })
 
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file was uploaded.');
+  }
+
   const { title, body } = req.body;
   const createdBy = req.user.id; 
 
   console.log("kaam chuh chama em 2 khait")
 
   try {
+    // Add a wait time until the image gets uploaded
+    await new Promise(resolve => setTimeout(resolve, 20000));
+
     const newBlog = await blog.create({
       title,
       body,
