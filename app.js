@@ -36,7 +36,7 @@ app.use(checkforauth("token")); // Apply auth middleware globally
 // Routes
 app.use('/user', userRoutes);
 app.use('/blog', blogRoutes); // Corrected usage
-app.use(express.static(path.resolve("./app/public")));
+app.use(express.static(path.resolve("./public")));
 app.get('/', async (req, res) => {
     const currentUser = req.user || null;
 

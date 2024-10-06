@@ -8,7 +8,7 @@ const comment = require('../model/commentschema');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve("./app/public/images/uploads"))
+    cb(null, path.resolve("./public/images/uploads"))
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now()
@@ -31,7 +31,7 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
       title,
       body,
       createdBy,
-      coverImageUrl: `/app/images/uploads/${req.file.filename}`,
+      coverImageUrl: `/images/uploads/${req.file.filename}`,
     });
 
     console.log("Blog created successfully", newBlog);
