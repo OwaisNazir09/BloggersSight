@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .left-side {
+            background-color: #101011;
+            color: #ffffff;
+            padding: 40px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
+        }
+        .quote {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-style: italic;
+            color: #dcdcdc;
+        }
+        .right-side {
+            width: 50%;
+            padding: 40px;
+        }
+        .form-container {
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-group small {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        .alert {
+            padding: 10px;
+            color: #ffffff;
+            background-color: #dc3545;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <h1>BloggersSight</h1>
+            <p class="quote">"The pen is mightier than the sword."</p>
+        </div>
+
+        <div class="right-side">
+            <div class="form-container">
+                <div class="form-group">
+                <% if (locals.error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= locals.error %>
+                    </div>
+                <% } %>
+                </div>
+
+                <form action="/user/signin" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script') %>
+</body>
+</html>

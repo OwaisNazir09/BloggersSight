@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <style>
+    /* Blog card styling */
+    .blog-card {
+      max-width: 900px;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      transition: transform 0.2s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .blog-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .blog-card-header h1 {
+      margin: 0;
+      font-size: 1.8em;
+      color: #333;
+      flex: 1;
+    }
+
+    .blog-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .blog-profile img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .blog-card-body {
+      padding: 20px;
+    }
+
+    .blog-card-body pre {
+      font-size: 1.1em;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: #020202;
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    /* Cover image styling */
+    .blog-card img.cover {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* Form styling */
+    form {
+      max-width: 900px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 1em;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    /* Comment section styling */
+    .comment-section {
+      max-width: 900px;
+      margin: 30px auto;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-section h2 {
+      font-size: 1.6em;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .comment {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment p {
+      margin: 0;
+      color: #333;
+    }
+
+    .comment .comment-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    .comment .comment-meta span {
+      font-weight: bold;
+    }
+
+    /* Button to create account */
+    .create-account {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .create-account button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .create-account button:hover {
+      background-color: #218838;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="blog-card">
+    <div class="blog-card-header">
+      <h1><%= blogdescriptiodata.title %></h1>
+      <div class="blog-profile">
+        <img src="<%= 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png' %>" alt="Profile Image" />
+        <h4><%= blogdescriptiodata.createdBy.fullName %></h4>
+      </div>
+    </div>
+
+    <img class="cover" src="<%= blogdescriptiodata.coverImageUrl %>" alt="Cover Image" />
+    <div class="blog-card-body">
+      <pre><%= blogdescriptiodata.body %></pre>
+    </div>
+  </div>
+
+  <div class="comment-section">
+    <% if (locals.user) { %>
+      <form class="comment-form" action="/blog/comment/<%= blogdescriptiodata._id %>" method="post">
+        <input type="text" name="content" placeholder="Write a comment..." required/>
+        <button type="submit">Submit</button>
+      </form>
+    <% } else { %>
+      <div class="create-account">
+        <h3>To comment please create an account first</h3>
+        <a href="/user/signup">
+          <button type="button">Click to Create Account</button>
+        </a>
+      </div>
+    <% } %>
+    
+    <div class="comment-list">
+      <h2>Comments</h2>
+      <% comments.forEach(comment => { %>
+        <div class="comment">
+          <p><%= comment.content %></p>
+          <div class="comment-meta">
+            <span><%= comment.createdBy.fullName %></span>
+            <span><%= comment.createdAt.toDateString() %></span>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</body>
+</html>
