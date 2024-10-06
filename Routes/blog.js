@@ -25,12 +25,14 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
   const { title, body } = req.body;
   const createdBy = req.user.id; 
 
+  console.log("kaam chuh chama em 2 khait")
+
   try {
     const newBlog = await blog.create({
       title,
       body,
       createdBy,
-      coverImageUrl: `/app/images/uploads/${req.file.filename}`,
+      // coverImageUrl: `/app/images/uploads/${req.file.filename}`,
     });
 
     console.log("Blog created successfully", newBlog);
