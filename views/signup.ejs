@@ -16,18 +16,18 @@
         }
         .container {
             display: flex;
-            width: 80%;
+            width: 90%; /* Adjusted width for responsiveness */
             max-width: 1200px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #ffffff;
             border-radius: 10px;
             overflow: hidden;
+            flex-direction: column; /* Stack elements on small screens */
         }
         .left-side {
             background-color: #101011;
             color: #ffffff;
             padding: 40px;
-            width: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -47,7 +47,6 @@
             color: #dcdcdc;
         }
         .right-side {
-            width: 50%;
             padding: 40px;
         }
         .form-container {
@@ -96,6 +95,28 @@
         }
         .sign-in-link a:hover {
             text-decoration: underline;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row; /* Horizontal layout for larger screens */
+            }
+            .left-side {
+                width: 50%; /* Left side takes half the width on larger screens */
+            }
+            .right-side {
+                width: 50%; /* Right side takes half the width on larger screens */
+            }
+        }
+
+        @media (max-width: 767px) {
+            h1 {
+                font-size: 2.5rem; /* Slightly smaller font size on mobile */
+            }
+            .quote {
+                font-size: 1rem; /* Adjust quote font size for mobile */
+            }
         }
     </style>
 </head>
