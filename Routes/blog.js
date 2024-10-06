@@ -2,30 +2,31 @@ const express = require('express');
 const router = express.Router();
 const blog = require('../model/blogschema'); // Blog schema/model
 const { route } = require('./user');
-const multer = require('multer')
+const multer = require('multer');
 const path = require('path');
 const comment = require('../model/commentschema');
 
+// Update: Use an absolute path for the upload directory
+const uploadDir = path.join(__dirname, '../public/images/uploads');
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve("./public/images/uploads"))
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now()
-    cb(null, file.originalname + '-' + uniqueSuffix)
+    const uniqueSuffix = Date.now();
+    cb(null, file.originalname + '-' + uniqueSuffix);
   }
-})
+});
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
 router.get("/addblog", (req, res) => {
   res.render('addblog')
 })
 
-
-
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
-  
+
   console.log('File uploaded:', req.file);
   if (!req.file) {
       return res.status(400).send('No file uploaded.');
