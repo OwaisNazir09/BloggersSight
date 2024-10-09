@@ -10,8 +10,8 @@ const checkforauth = require('./middlewares/auth'); // Use default import
 
 const app = express();
 const port = process.env.PORT;
-
-
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'))
 const userRoutes = require('./Routes/user');
 const blogRoutes = require('./Routes/blog'); // Corrected import
 

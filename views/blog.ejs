@@ -167,6 +167,29 @@
       background-color: #218838;
     }
 
+
+    .deletbuttonType {
+  /* Style the button */
+  background-color: #FF3737; /* Red background color */
+  color: #575151; /* White text color */
+  border: none; /* No border */
+  padding: 10px 20px; /* Add some padding */
+  font-size: 16px; /* Increase font size */
+  cursor: pointer; /* Change cursor to a pointing hand */
+  border-radius: 5px; /* Add a slight rounded corner */
+}
+
+.deletbuttonType:hover {
+  /* Style the button on hover */
+  background-color: #FF0000; /* Darker red background color on hover */
+}
+
+.deletbuttonType:active {
+  /* Style the button on active (click) */
+  background-color: #CC0000; /* Even darker red background color on active */
+  transform: translateY(2px); /* Move the button down slightly on active */
+}
+
   </style>
 </head>
 <body>
@@ -184,7 +207,14 @@
       <pre><%= blogdescriptiodata.body %></pre>
     </div>
   </div>
-
+  <div>
+    <% if (locals.user && locals.user.id === blogdescriptiodata.createdBy.id) { %>
+      <form action="/blog/<%= blogdescriptiodata._id %>" method="post">
+        <button  id="deetebuttontype" type=" submit">Delete post</button>
+      </form>
+    <% } %>
+  </div>
+  
   <div class="comment-section">
     <% if (locals.user) { %>
       <form class="comment-form" action="/blog/comment/<%= blogdescriptiodata._id %>" method="post">
@@ -199,7 +229,7 @@
         </a>
       </div>
     <% } %>
-    
+      
     <div class="comment-list">
       <h2>Comments</h2>
       <% comments.forEach(comment => { %>

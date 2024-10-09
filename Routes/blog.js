@@ -5,7 +5,7 @@ const { route } = require('./user');
 const multer = require('multer')
 const path = require('path');
 const comment = require('../model/commentschema');
-
+;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.resolve("./public/images/uploads"))
@@ -46,14 +46,10 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
 router.get('/:id', async (req, res) => {
   const blogdescriptiodata = await blog.findOne({ _id: req.params.id }).populate("createdBy")
   const comments = await comment.find({ blogId:req.params.id }).populate("createdBy")
-  console.log(comments);
   res.render("blog", { user: req.user, blogdescriptiodata, comments })
 })
 
 router.post('/comment/:blogId', (req, res) => {
-  console.log(req.params.blogId)
-  console.log(req.body);
-  console.log(req.params);
   comment.create({
     content: req.body.content,
     createdBy: req.user.id,
@@ -62,6 +58,17 @@ router.post('/comment/:blogId', (req, res) => {
   return res.redirect(`/blog/${req.params.blogId}`);
 });
 
+router.post('/:id',async(req,res)=>{
+  const blogId = req.params.id;
+  console.log(`the blog id is ${blogId}`)
+  try {
+    await blog.deleteOne({ _id: blogId });
+    res.redirect('/');
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).send("Error deleting the blog");
+  }
+})
 
 
 module.exports = router;
