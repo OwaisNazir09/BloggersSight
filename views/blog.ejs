@@ -167,32 +167,24 @@
       background-color: #218838;
     }
 
-<<<<<<< HEAD
+    .delete-button {
+      background-color: #FF3737; /* Red background color */
+      color: #575151; /* Text color */
+      border: none; /* No border */
+      padding: 10px 20px; /* Add some padding */
+      font-size: 16px; /* Increase font size */
+      cursor: pointer; /* Change cursor to a pointing hand */
+      border-radius: 5px; /* Add a slight rounded corner */
+    }
 
-    .deletbuttonType {
-  /* Style the button */
-  background-color: #FF3737; /* Red background color */
-  color: #575151; /* White text color */
-  border: none; /* No border */
-  padding: 10px 20px; /* Add some padding */
-  font-size: 16px; /* Increase font size */
-  cursor: pointer; /* Change cursor to a pointing hand */
-  border-radius: 5px; /* Add a slight rounded corner */
-}
+    .delete-button:hover {
+      background-color: #FF0000; /* Darker red background color on hover */
+    }
 
-.deletbuttonType:hover {
-  /* Style the button on hover */
-  background-color: #FF0000; /* Darker red background color on hover */
-}
-
-.deletbuttonType:active {
-  /* Style the button on active (click) */
-  background-color: #CC0000; /* Even darker red background color on active */
-  transform: translateY(2px); /* Move the button down slightly on active */
-}
-
-=======
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
+    .delete-button:active {
+      background-color: #CC0000; /* Even darker red background color on active */
+      transform: translateY(2px); /* Move the button down slightly on active */
+    }
   </style>
 </head>
 <body>
@@ -210,22 +202,19 @@
       <pre><%= blogdescriptiodata.body %></pre>
     </div>
   </div>
-<<<<<<< HEAD
+  
   <div>
     <% if (locals.user && locals.user.id === blogdescriptiodata.createdBy.id) { %>
       <form action="/blog/<%= blogdescriptiodata._id %>" method="post">
-        <button  id="deetebuttontype" type=" submit">Delete post</button>
+        <button class="delete-button" type="submit">Delete post</button>
       </form>
     <% } %>
   </div>
-  
-=======
 
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
   <div class="comment-section">
     <% if (locals.user) { %>
       <form class="comment-form" action="/blog/comment/<%= blogdescriptiodata._id %>" method="post">
-        <input type="text" name="content" placeholder="Write a comment..." required/>
+        <input type="text" name="content" placeholder="Write a comment..." required />
         <button type="submit">Submit</button>
       </form>
     <% } else { %>
@@ -236,11 +225,7 @@
         </a>
       </div>
     <% } %>
-<<<<<<< HEAD
-      
-=======
     
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     <div class="comment-list">
       <h2>Comments</h2>
       <% comments.forEach(comment => { %>
