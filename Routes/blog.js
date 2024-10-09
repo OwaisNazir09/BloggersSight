@@ -1,21 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const blog = require('../model/blogschema'); // Blog schema/model
-<<<<<<< HEAD
-const { route } = require('./user');
-const multer = require('multer')
-const path = require('path');
-const comment = require('../model/commentschema');
-;
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve("./public/images/uploads"))
-=======
-const multer = require('multer')
+const blog = require('../model/blogschema');
+const multer = require('multer');
 const path = require('path');
 const comment = require('../model/commentschema');
 const fs = require('fs');
 
+// Setup storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const uploadPath = path.join(__dirname, '../public/images/uploads');
@@ -23,25 +14,22 @@ const storage = multer.diskStorage({
       fs.mkdirSync(uploadPath);
     }
     cb(null, uploadPath);
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now()
-    cb(null, file.originalname + '-' + uniqueSuffix)
+    const uniqueSuffix = Date.now();
+    cb(null, file.originalname + '-' + uniqueSuffix);
   }
-})
+});
 
-<<<<<<< HEAD
-const upload = multer({ storage: storage })
-=======
+// Configure multer for file uploads
 const upload = multer({
   storage: storage,
   limits: {
     fileSize: 1024 * 1024 * 5, // 5 MB
-    files: 1, // only allow 1 file to be uploaded
-    fields: 10, // only allow 10 fields to be uploaded
-    parts: 10, // only allow 10 parts to be uploaded
-    headerPairs: 2000 // only allow 2000 header pairs to be uploaded
+    files: 1,
+    fields: 10,
+    parts: 10,
+    headerPairs: 2000,
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -49,32 +37,22 @@ const upload = multer({
     }
     cb(null, true);
   }
-})
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
+});
 
 router.get("/addblog", (req, res) => {
-  res.render('addblog')
-})
+  res.render('addblog');
+});
 
+// Add a blog post
 router.post('/addblog', upload.single('coverImage'), async (req, res) => {
-<<<<<<< HEAD
-  const { title, body } = req.body;
-  const createdBy = req.user.id;  // Use only the user's ObjectId
-
-  try {
-=======
   if (!req.file) {
     return res.status(400).send('No file was uploaded.');
   }
 
   const { title, body } = req.body;
-  const createdBy = req.user.id; 
+  const createdBy = req.user.id;
 
   try {
-    // Add a wait time until the image gets uploaded
-    await new Promise(resolve => setTimeout(resolve, 20000));
-
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     const newBlog = await blog.create({
       title,
       body,
@@ -90,50 +68,49 @@ router.post('/addblog', upload.single('coverImage'), async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-
+// Get a specific blog post
 router.get('/:id', async (req, res) => {
-  const blogdescriptiodata = await blog.findOne({ _id: req.params.id }).populate("createdBy")
-  const comments = await comment.find({ blogId:req.params.id }).populate("createdBy")
-=======
-router.get('/:id', async (req, res) => {
-  const blogdescriptiodata = await blog.findOne({ _id: req.params.id }).populate("createdBy")
-  const comments = await comment.find({ blogId:req.params.id }).populate("createdBy")
-  console.log(comments);
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
-  res.render("blog", { user: req.user, blogdescriptiodata, comments })
-})
-
-router.post('/comment/:blogId', (req, res) => {
-<<<<<<< HEAD
-=======
-  console.log(req.params.blogId)
-  console.log(req.body);
-  console.log(req.params);
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
-  comment.create({
-    content: req.body.content,
-    createdBy: req.user.id,
-    blogId: req.params.blogId,
-  });
-  return res.redirect(`/blog/${req.params.blogId}`);
+  try {
+    const blogdescriptiodata = await blog.findOne({ _id: req.params.id }).populate("createdBy");
+    const comments = await comment.find({ blogId: req.params.id }).populate("createdBy");
+    
+    res.render("blog", { user: req.user, blogdescriptiodata, comments });
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    res.status(500).send("Error fetching blog data");
+  }
 });
 
-<<<<<<< HEAD
-router.post('/:id',async(req,res)=>{
-  const blogId = req.params.id;
-  console.log(`the blog id is ${blogId}`)
+// Post a comment
+router.post('/comment/:blogId', async (req, res) => {
   try {
+    await comment.create({
+      content: req.body.content,
+      createdBy: req.user.id,
+      blogId: req.params.blogId,
+    });
+    return res.redirect(`/blog/${req.params.blogId}`);
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    return res.status(500).send("Error creating comment");
+  }
+});
+
+// Delete a blog post
+router.post('/:id', async (req, res) => {
+  const blogId = req.params.id;
+  try {
+    const blogToDelete = await blog.findById(blogId);
+    if (blogToDelete.createdBy.toString() !== req.user.id) {
+      return res.status(403).send("You are not authorized to delete this blog");
+    }
+
     await blog.deleteOne({ _id: blogId });
     res.redirect('/');
   } catch (error) {
     console.error("Error deleting blog:", error);
     res.status(500).send("Error deleting the blog");
   }
-})
-
+});
 
 module.exports = router;
-=======
-module.exports = router;
->>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
