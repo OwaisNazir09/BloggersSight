@@ -2,8 +2,11 @@ const { createHmac, randomBytes } = require('crypto');
 const { Schema, model } = require('mongoose');
 const { createusertoken } = require('../services/authuntication');
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
 const userSchema = new Schema({
     fullName: {
         type: String,
@@ -16,7 +19,10 @@ const userSchema = new Schema({
     },
     salt: {
         type: String,
+<<<<<<< HEAD
       
+=======
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     },
     password: {
         type: String,
@@ -24,7 +30,11 @@ const userSchema = new Schema({
     },
     publicProfileUrl: {
         type: String,
+<<<<<<< HEAD
         default: "/images/default.png",
+=======
+        default: "/app/images/default.png",
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     },
     role: {
         type: String,
@@ -37,7 +47,11 @@ userSchema.pre("save", function (next) {
     const user = this;
     if (!user.isModified("password")) return next();
 
+<<<<<<< HEAD
     const salt = "helloworld";
+=======
+    const salt = process.env.SALT || randomBytes(16).toString('hex'); // Generate a random salt if not set
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     const hashedPassword = createHmac("sha256", salt).update(user.password).digest("hex");
 
     console.log("Hashed Password during signup:", hashedPassword);  // Log during signup
@@ -52,7 +66,11 @@ userSchema.static("mismatch", async function (email, password) {
         const user = await this.findOne({ email });
         if (!user) return null;
 
+<<<<<<< HEAD
         const salt = process.env.SALT;  
+=======
+        const salt = user.salt || process.env.SALT; // Get the user's salt if available
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
         const userHashedPassword = user.password;
 
         const hashedPassword = createHmac("sha256", salt).update(password).digest("hex");

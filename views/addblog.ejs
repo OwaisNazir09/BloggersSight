@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <%- include('./partials/head') %>
+<<<<<<< HEAD
     <title>Home</title>
     <style>
         body {
@@ -9,6 +10,28 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 20px;
+=======
+    <title>Add Blog</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Center content vertically */
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px; /* Max width for the form container */
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
         }
 
         .form-control {
@@ -37,6 +60,10 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+<<<<<<< HEAD
+=======
+            width: 100%;
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
         }
 
         .btn-primary:hover {
@@ -56,10 +83,25 @@
             border-color: #ffc107;
             resize: vertical; /* Allow vertical resizing only */
         }
+<<<<<<< HEAD
+=======
+
+        /* Loading spinner styles */
+        #loading {
+            display: none; /* Initially hidden */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     </style>
 </head>
 <body>
 
+<<<<<<< HEAD
 <form action="addblog" enctype="multipart/form-data" method="post">
   
     <div class="form-group">
@@ -83,5 +125,35 @@
 
 <%- include('./partials/script') %>
    
+=======
+    <div class="container">
+        <h1>Add a New Blog</h1>
+        <form id="blogForm" action="addblog" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label for="username" class="form-label">Title of Blog</label>
+                <input type="text" class="form-control" id="username" name="title" placeholder="Enter your blog title" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Cover Image</label>
+                <input class="form-control" type="file" id="formFileMultiple" name="coverImage" accept="image/*" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Blog Text Here</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="body" rows="3" placeholder="Write your blog content here" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        
+    </div>
+
+
+
+   
+    <%- include('./partials/script') %>
+
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
 </body>
 </html>

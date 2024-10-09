@@ -167,6 +167,7 @@
       background-color: #218838;
     }
 
+<<<<<<< HEAD
 
     .deletbuttonType {
   /* Style the button */
@@ -190,6 +191,8 @@
   transform: translateY(2px); /* Move the button down slightly on active */
 }
 
+=======
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
   </style>
 </head>
 <body>
@@ -207,6 +210,7 @@
       <pre><%= blogdescriptiodata.body %></pre>
     </div>
   </div>
+<<<<<<< HEAD
   <div>
     <% if (locals.user && locals.user.id === blogdescriptiodata.createdBy.id) { %>
       <form action="/blog/<%= blogdescriptiodata._id %>" method="post">
@@ -215,6 +219,9 @@
     <% } %>
   </div>
   
+=======
+
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
   <div class="comment-section">
     <% if (locals.user) { %>
       <form class="comment-form" action="/blog/comment/<%= blogdescriptiodata._id %>" method="post">
@@ -229,7 +236,11 @@
         </a>
       </div>
     <% } %>
+<<<<<<< HEAD
       
+=======
+    
+>>>>>>> 366e11f4523f68539e2d4ef0b83e934bcccef5f0
     <div class="comment-list">
       <h2>Comments</h2>
       <% comments.forEach(comment => { %>
