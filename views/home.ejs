@@ -11,9 +11,6 @@ html, body {
     display: flex; /* Use flexbox */
     flex-direction: column; /* Align items in a column */
     background-color: rgb(12, 35, 73);
-}
-
-body::before {
     content: "";
     position: absolute;
     top: 0;
@@ -28,6 +25,8 @@ body::before {
     filter: blur(8px); /* Adjust the blur level as desired */
     z-index: -1; /* Ensure the background stays behind the content */
 }
+
+
 
 .container {
     flex-grow: 1; /* Ensure it takes up remaining space */
