@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = "09092001"; // Use the same secret in both functions
+const secret = ""; // Use the same secret in both functions
 
 function createusertoken(user) {
     const payload = {
